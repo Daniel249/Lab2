@@ -103,7 +103,6 @@ COMMENT     \#.*
 %%
 
 "in"[ \t]+"range" {
-    print_upper("in range");
     return INRANGE;
 }
 
@@ -116,22 +115,20 @@ COMMENT     \#.*
 
 {ID} {
     if (is_keyword(yytext)) {
-        print_upper(yytext);
         return get_keyword_token(yytext);
     } else {
         int num = get_id_num(yytext);
-        printf("id%d=%s ", num, yytext);
         return IDENTIFIER;
     }
 }
 
-"+"     { printf("suma=+ "); return PLUS; }
-"-"     { printf("menos=- "); return MINUS; }
+"+"     { return PLUS; }
+"-"     { return MINUS; }
 
-{LONGINT}   { printf("long=%s ", yytext); return NUMBER; }
-{FLOAT}     { printf("decimal=%s ", yytext); return NUMBER; }
-{IMAG}      { printf("imaginario=%s ", yytext); return NUMBER; }
-{UINT}      { printf("entero=%s ", yytext); return NUMBER; }
+{LONGINT}   { return NUMBER; }
+{FLOAT}     { return NUMBER; }
+{IMAG}      { return NUMBER; }
+{UINT}      { return NUMBER; }
 
 {INVALIDWORD} {
     printf("Error=\"%s\" ", yytext);
@@ -140,34 +137,33 @@ COMMENT     \#.*
     return ERROR_TOKEN;
 }
 
-{STRING_SQ} { printf("cadena=%s ", yytext); return STRING; }
-{STRING_DQ} { printf("cadena=%s ", yytext); return STRING; }
+{STRING_SQ} { return STRING; }
+{STRING_DQ} { return STRING; }
 
 {COMMENT}   { /* ignore comments */ }
 
-"("     { printf("parabre=( "); return LPAREN; }
-")"     { printf("parcierr=) "); return RPAREN; }
-"["     { printf("corabre=[ "); return LBRACKET; }
-"]"     { printf("corcierr=] "); return RBRACKET; }
-"="     { printf("asign== "); return ASSIGN; }
-";"     { printf("puntoycoma=; "); return SEMICOLON; }
-","     { printf("coma=, "); return COMMA; }
-":"     { printf("dospunt=: "); return COLON; }
-"."     { printf("punto=. "); return DOT; }
-"*"     { printf("mult=* "); return MULT; }
-"/"     { printf("div=/ "); return DIV; }
-"%"     { printf("mod=%% "); return MOD; }
-"<"     { printf("menor=< "); return LT; }
-">"     { printf("mayor=> "); return GT; }
-"<="    { printf("menor_ig=<= "); return LE; }
-">="    { printf("mayor_ig=>= "); return GE; }
-"=="    { printf("comp=== "); return EQ; }
-"!="    { printf("distinto=!= "); return NE; }
+"("     { return LPAREN; }
+")"     { return RPAREN; }
+"["     { return LBRACKET; }
+"]"     { return RBRACKET; }
+"="     { return ASSIGN; }
+";"     { return SEMICOLON; }
+","     { return COMMA; }
+":"     { return COLON; }
+"."     { return DOT; }
+"*"     { return MULT; }
+"/"     { return DIV; }
+"%"     { return MOD; }
+"<"     { return LT; }
+">"     { return GT; }
+"<="    { return LE; }
+">="    { return GE; }
+"=="    { return EQ; }
+"!="    { return NE; }
 
-[ ]   { printf(" "); }
-[\t]  { printf("\t"); }
+[ ]   { /* ignore spaces */ }
+[\t]  { /* ignore tabs */ }
 \r?\n { 
-    printf("\n"); 
     line_has_error = 0;
     return NEWLINE; 
 }

@@ -82,31 +82,18 @@ line:
 
 statement:
     assignment
-    { printf("DEBUG: Matched assignment\n"); }
   | function_def_line
-    { printf("DEBUG: Matched function_def_line\n"); }
   | if_statement_line
-    { printf("DEBUG: Matched if_statement_line\n"); }
   | for_statement_line
-    { printf("DEBUG: Matched for_statement_line\n"); }
   | while_statement_line
-    { printf("DEBUG: Matched while_statement_line\n"); }
   | pass_statement
-    { printf("DEBUG: Matched pass_statement\n"); }
   | break_statement
-    { printf("DEBUG: Matched break_statement\n"); }
   | continue_statement
-    { printf("DEBUG: Matched continue_statement\n"); }
   | print_statement
-    { printf("DEBUG: Matched print_statement\n"); }
   | import_statement
-    { printf("DEBUG: Matched import_statement\n"); }
   | return_statement
-    { printf("DEBUG: Matched return_statement\n"); }
   | expression_statement
-    { printf("DEBUG: Matched expression_statement\n"); }
   | error  /* Default error recovery */
-    { printf("DEBUG: Fell through to error rule\n"); }
   ;
 
 /* Assignment: identifier = expression OR identifier1, identifier2 = expression1, expression2 */
@@ -153,24 +140,18 @@ if_statement_line:
 
 for_statement_line:
     FOR IDENTIFIER IN RANGE LPAREN expression RPAREN COLON          /* for i in range(expression) */
-    { printf("DEBUG: Matched FOR-IN-RANGE pattern\n"); }
   | FOR IDENTIFIER RANGE LPAREN expression RPAREN COLON             /* for i range(expression) - IN optional */
-    { printf("DEBUG: Matched FOR-RANGE pattern (IN optional)\n"); }
   | FOR IDENTIFIER INRANGE expression COLON                         /* for i inrange expression */  
-    { printf("DEBUG: Matched FOR-INRANGE pattern\n"); }
   | FOR IDENTIFIER IN IDENTIFIER COLON                              /* for i in identifier */
-    { printf("DEBUG: Matched FOR-IN-IDENTIFIER pattern\n"); }
   | FOR IDENTIFIER COLON
     { 
         mark_syntax_error_at_line(yylineno);
         printf("Error: Invalid for loop syntax\n"); 
-        printf("DEBUG: Matched incomplete FOR pattern\n");
     }
   | FOR IDENTIFIER RANGE
     { 
         mark_syntax_error_at_line(yylineno);
         printf("Error: Missing parentheses after 'range' in for loop\n"); 
-        printf("DEBUG: Matched FOR-RANGE without parentheses\n");
     }
   ;
 
