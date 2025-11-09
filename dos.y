@@ -103,7 +103,6 @@ assignment:
   | identifier_list ASSIGN expression                              
     { 
         mark_syntax_error_at_line(yylineno - 1);  /* Error is on the line we just finished processing */
-        printf("Error: Assignment mismatch - multiple variables, single value\n"); 
     }
   ;
 
@@ -124,7 +123,6 @@ function_def_line:
   | DEF IDENTIFIER LPAREN parameter_list RPAREN
     { 
         mark_syntax_error_at_line(yylineno - 1);  /* Error is on the line we just finished processing */
-        printf("Error: Missing ':' after function definition\n"); 
     }
   ;
 
@@ -134,7 +132,6 @@ if_statement_line:
   | IF expression 
     { 
         mark_syntax_error_at_line(yylineno);
-        printf("Error: Missing ':' after if condition\n"); 
     }
   ;
 
@@ -146,12 +143,10 @@ for_statement_line:
   | FOR IDENTIFIER COLON
     { 
         mark_syntax_error_at_line(yylineno);
-        printf("Error: Invalid for loop syntax\n"); 
     }
   | FOR IDENTIFIER RANGE
     { 
         mark_syntax_error_at_line(yylineno);
-        printf("Error: Missing parentheses after 'range' in for loop\n"); 
     }
   ;
 
@@ -160,7 +155,6 @@ while_statement_line:
   | WHILE expression
     { 
         mark_syntax_error_at_line(yylineno);
-        printf("Error: Missing ':' after while condition\n"); 
     }
   ;
 

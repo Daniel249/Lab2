@@ -107,7 +107,6 @@ COMMENT     \#.*
 }
 
 {UNCLOSED_STR} {
-    printf("Error=\"%s\" ", yytext);
     err_count++;
     mark_error();
     return ERROR_TOKEN;
@@ -131,7 +130,6 @@ COMMENT     \#.*
 {UINT}      { return NUMBER; }
 
 {INVALIDWORD} {
-    printf("Error=\"%s\" ", yytext);
     err_count++;
     mark_error();
     return ERROR_TOKEN;
@@ -169,7 +167,6 @@ COMMENT     \#.*
 }
 
 . {
-    printf("Error=\"%s\" ", yytext);
     err_count++;
     mark_error();
     return ERROR_TOKEN;
@@ -183,21 +180,7 @@ int main() {
     
     yyparse();
     
-    printf("\n\n%d Identificadores\n", id_count);
-    for (IdNode *curr = id_table; curr; curr = curr->next)
-        printf("id%d=%s\n", curr->num, curr->name);
-
-    printf("\n%d Errores lexicos\n", err_count);
-    
-    if (error_line_count == 0) {
-        printf("No hay errores lexicos\n");
-    } else {
-        for (int i = 0; i < error_line_count; i++) {
-            printf("línea %d error lexico\n", error_lines[i]);
-        }
-    }
-    
-    printf("\n%d líneas presentaron error sintáctico\n", syntax_error_count);
+    printf("%d líneas presentaron error sintáctico\n", syntax_error_count);
     
     if (syntax_error_count == 0) {
         printf("No hay errores sintacticos\n");
